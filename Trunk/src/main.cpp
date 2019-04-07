@@ -9,6 +9,8 @@
 
 int main(int argc, char** argv)
 {
+    new idc::IDC();
+    idc::IDC::load();
     bool active = true;
     sf::Clock* clock = new sf::Clock();
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "IDC");
@@ -44,6 +46,7 @@ int main(int argc, char** argv)
 	delete game;
 	delete window;
 	delete clock;
+	idc::IDC::unload();
 	return 0;
 }
 

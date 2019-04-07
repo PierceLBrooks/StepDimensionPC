@@ -17,6 +17,9 @@
 #include <Song.hpp>
 #include <Sud.hpp>
 
+#include <cstdlib>
+#include <ctime>
+
 namespace idc
 {
 	class IDC
@@ -24,6 +27,13 @@ namespace idc
 		public:
 			IDC();
 			virtual ~IDC();
+            static sf::Texture* loadTexture(const std::string& path);
+            static sf::Sound* loadSound(const std::string& path);
+            static void load();
+            static void unload();
+        private:
+            static std::map<std::string, sf::Texture*>* textures;
+            static std::map<std::string, std::pair<sf::SoundBuffer*, sf::Sound*>>* sounds;
 	};
 }
 

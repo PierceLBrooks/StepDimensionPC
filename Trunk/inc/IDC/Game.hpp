@@ -15,8 +15,10 @@ namespace idc
 			virtual ~Game();
 			void handle(sf::RenderWindow* window, float deltaTime);
         private:
+            sf::Vector2f backgroundOffset;
             sf::Sprite* background;
             sf::Texture* backgroundTexture;
+            sf::Sprite* fret;
 	};
 }
 
