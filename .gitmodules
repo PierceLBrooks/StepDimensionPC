@@ -1,0 +1,6 @@
+[submodule "SFML/SFML"]
+	path = SFML/SFML
+	url = https://github.com/SFML/SFML.git
+[submodule "IDCP/IDCP"]
+	path = IDCP/IDCP
+	url = https://github.com/dsv101/IDCP.git
