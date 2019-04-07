@@ -5,13 +5,15 @@
 #define GAME_HPP
 
 #include <IDC/IDC.hpp>
+#include <IDC/Stream.hpp>
+#include <vector>
 
 namespace idc
 {
 	class Game
 	{
 		public:
-			Game();
+			Game(int target);
 			virtual ~Game();
 			void handle(sf::RenderWindow* window, float deltaTime);
         private:
@@ -19,6 +21,9 @@ namespace idc
             sf::Sprite* background;
             sf::Texture* backgroundTexture;
             sf::Sprite* fret;
+            std::vector<Stream*> streams;
+            idc::parser::Song* song;
+            sf::Music* music;
 	};
 }
 

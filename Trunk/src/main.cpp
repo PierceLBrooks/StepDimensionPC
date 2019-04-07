@@ -14,13 +14,18 @@ int main(int argc, char** argv)
     bool active = true;
     sf::Clock* clock = new sf::Clock();
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "IDC");
-	idc::Game* game = new idc::Game();
+	idc::Game* game;
 	std::vector<std::string> arguments;
 	for (int i = 0; i != argc; ++i)
 	{
 		arguments.push_back(std::string(argv[i]));
 		std::cout << i << " = " << arguments.back() << std::endl;
 	}
+	if (arguments.size() < 2)
+    {
+        goto finish;
+    }
+	game = new idc::Game(atoi(arguments.back().c_str()));
 	clock->restart();
 	while (window->isOpen())
     {
@@ -44,6 +49,7 @@ int main(int argc, char** argv)
         window->display();
     }
 	delete game;
+	finish:
 	delete window;
 	delete clock;
 	idc::IDC::unload();

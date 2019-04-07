@@ -4,7 +4,7 @@
 #include <IDC/Game.hpp>
 #include <iostream>
 
-idc::Game::Game() :
+idc::Game::Game(int target) :
     background(nullptr),
     backgroundTexture(nullptr)
 {
@@ -21,14 +21,30 @@ idc::Game::Game() :
         background = nullptr;
         backgroundTexture = nullptr;
     }
-    fret = new sf::Sprite(*IDC::loadTexture("./Assets/fret.png"));
+    fret = new sf::Sprite(*IDC::loadTexture("./Assets/fretboard/fret_board_bkg.png"));
     fret->setOrigin(static_cast<float>(fret->getTexture()->getSize().x)*0.5f, 0.0f);
+    streams.push_back(new Stream(-1, "./Assets/buttons/circle/circle_1.png"));
+    streams.push_back(new Stream(0, "./Assets/buttons/square/square_1.png"));
+    streams.push_back(new Stream(1, "./Assets/buttons/triangle/triangle_1.png"));
+    song = new idc::parser::Song();
+    song->load_data("./Assets/songs/song"+std::to_string(target)+"_ttt_nomark.txt");
+    music = new sf::Music();
+    music->openFromFile("./Assets/songs/rhythm0"+std::to_string(target)+".wav");
+    music->play();
 }
 
 idc::Game::~Game()
 {
+    delete song;
+    delete music;
     delete background;
     delete backgroundTexture;
+    delete fret;
+    for (int i = 0; i != streams.size(); ++i)
+    {
+        delete streams[i];
+    }
+    streams.clear();
 }
 
 void idc::Game::handle(sf::RenderWindow* window, float deltaTime)
@@ -45,4 +61,8 @@ void idc::Game::handle(sf::RenderWindow* window, float deltaTime)
         fret->move(-fret->getOrigin().x*1.5f, -background->getPosition().y);
     }
     window->draw(*fret);
+    for (int i = 0; i != streams.size(); ++i)
+    {
+        streams[i]->handle(fret, window, deltaTime);
+    }
 }

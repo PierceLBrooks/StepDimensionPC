@@ -14,8 +14,10 @@ set(SRC ${PROJECT_SOURCE_DIR}/Trunk/src)
 set(PROJECT_FILES
 	${INC}/IDC.hpp
 	${INC}/Game.hpp
+	${INC}/Stream.hpp
 	${SRC}/IDC.cpp
 	${SRC}/Game.cpp
+	${SRC}/Stream.cpp
 	${SRC}/main.cpp
 )
 
