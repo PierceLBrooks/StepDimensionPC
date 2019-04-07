@@ -31,7 +31,22 @@ int main(int argc, char** argv)
 	while (window->isOpen())
     {
         sf::Event event;
-        while (active ? window->pollEvent(event) : window->waitEvent(event))
+        if (active)
+        {
+            if (!window->hasFocus())
+            {
+                active = false;
+            }
+        }
+        else
+        {
+            if (window->hasFocus())
+            {
+                active = true;
+                clock->restart();
+            }
+        }
+        while (window->pollEvent(event))
         {
             switch (event.type)
             {
