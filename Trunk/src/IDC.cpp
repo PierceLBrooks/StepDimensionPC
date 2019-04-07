@@ -5,16 +5,21 @@
 #include <map>
 #include <string>
 
+idc::IDC* idc::IDC::self = nullptr;
 std::map<std::string, sf::Texture*>* idc::IDC::textures = nullptr;
 std::map<std::string, std::pair<sf::SoundBuffer*, sf::Sound*>>* idc::IDC::sounds = nullptr;
 
 idc::IDC::IDC()
 {
     srand(time(NULL));
+    self = this;
+    font = new sf::Font();
+    font->loadFromFile("./Assets/fonts/sansation.ttf");
 }
 
 idc::IDC::~IDC()
 {
+    delete font;
 }
 
 sf::Texture* idc::IDC::loadTexture(const std::string& path)
@@ -106,4 +111,14 @@ void idc::IDC::unload()
         delete sounds;
         sounds = nullptr;
     }
+}
+
+idc::IDC* idc::IDC::getSelf()
+{
+    return self;
+}
+
+sf::Font* idc::IDC::getFont()
+{
+    return self->font;
 }

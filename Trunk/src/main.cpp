@@ -12,6 +12,7 @@ int main(int argc, char** argv)
     new idc::IDC();
     idc::IDC::load();
     bool active = true;
+    float deltaTime = 0.0f;
     sf::Clock* clock = new sf::Clock();
     sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode::getDesktopMode(), "IDC");
 	idc::Game* game;
@@ -45,7 +46,31 @@ int main(int argc, char** argv)
             continue;
         }
         window->clear(sf::Color::Black);
-        game->handle(window, clock->restart().asSeconds());
+        deltaTime = clock->restart().asSeconds();
+        if (deltaTime > STEP)
+        {
+            int steps = 2;
+            while (deltaTime/static_cast<float>(steps))
+            {
+                ++steps;
+            }
+            for (int i = 0; i != steps; ++i)
+            {
+                if (!game->handle(window, deltaTime/static_cast<float>(steps)))
+                {
+                    window->close();
+                    continue;
+                }
+            }
+        }
+        else
+        {
+            if (!game->handle(window, deltaTime))
+            {
+                window->close();
+                continue;
+            }
+        }
         window->display();
     }
 	delete game;

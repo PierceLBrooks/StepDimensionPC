@@ -28,7 +28,7 @@ void idc::Stream::stream(sf::Sprite* fret)
     notes.push_back(new sf::Sprite(*marker->getTexture()));
     notes.back()->setScale(notes.back()->getScale()*0.5f);
     notes.back()->setOrigin(marker->getOrigin());
-    notes.back()->setPosition(fret->getPosition());
+    notes.back()->setPosition(marker->getPosition().x, fret->getPosition().y);
     notes.back()->move(0.0f, 0.0f);
 }
 
@@ -37,10 +37,14 @@ void idc::Stream::handle(sf::Sprite* fret, sf::RenderWindow* window, float delta
     sf::FloatRect intersection;
     for (int i = 0; i != notes.size(); ++i)
     {
-        notes[i]->move(0.0f, deltaTime);
+        notes[i]->move(0.0f, (static_cast<float>(fret->getTexture()->getSize().y)*deltaTime)/FLOW);
         intersection = sf::FloatRect();
         if ((notes[i]->getPosition().y > marker->getPosition().y) || ((focus) && (marker->getGlobalBounds().intersects(notes[i]->getGlobalBounds(), intersection))))
         {
+            if (!focus)
+            {
+                score *= 0.5f;
+            }
             score += intersection.width*intersection.height;
             delete notes[i];
             notes.erase(notes.begin()+i);
@@ -51,6 +55,15 @@ void idc::Stream::handle(sf::Sprite* fret, sf::RenderWindow* window, float delta
     }
     marker->setPosition(fret->getPosition());
     marker->move(static_cast<float>(fret->getTexture()->getSize().x)*static_cast<float>(offset)*0.3f, static_cast<float>(fret->getTexture()->getSize().y)-marker->getOrigin().y);
+    if (focus)
+    {
+        marker->setScale(fret->getScale()*1.125f);
+        score -= 1.0f;
+    }
+    else
+    {
+        marker->setScale(fret->getScale());
+    }
     //marker->rotate(static_cast<float>((rand()%50)-25)*deltaTime);
     window->draw(*marker);
 }

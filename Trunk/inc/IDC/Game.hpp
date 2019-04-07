@@ -15,7 +15,7 @@ namespace idc
 		public:
 			Game(int target);
 			virtual ~Game();
-			void handle(sf::RenderWindow* window, float deltaTime);
+			bool handle(sf::RenderWindow* window, float deltaTime);
         private:
             sf::Vector2f backgroundOffset;
             sf::Sprite* background;
@@ -24,6 +24,10 @@ namespace idc
             std::vector<Stream*> streams;
             idc::parser::Song* song;
             sf::Music* music;
+            sf::Text* label;
+            float time;
+            float score;
+            std::map<int, float> notes;
 	};
 }
 

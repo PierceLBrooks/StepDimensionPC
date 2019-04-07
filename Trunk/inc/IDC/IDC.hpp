@@ -20,6 +20,13 @@
 #include <cstdlib>
 #include <ctime>
 
+#define TRIANGLE 1
+#define SQUARE 0
+#define CIRCLE -1
+
+#define FLOW 5.0f
+#define STEP 0.125f
+
 namespace idc
 {
 	class IDC
@@ -31,9 +38,13 @@ namespace idc
             static sf::Sound* loadSound(const std::string& path);
             static void load();
             static void unload();
+            static IDC* getSelf();
+            static sf::Font* getFont();
         private:
             static std::map<std::string, sf::Texture*>* textures;
             static std::map<std::string, std::pair<sf::SoundBuffer*, sf::Sound*>>* sounds;
+            static IDC* self;
+            sf::Font* font;
 	};
 }
 
